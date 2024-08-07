@@ -1,0 +1,173 @@
+scalar DateTime
+
+#### Enums ####
+enum Statuses {
+    complete
+    pending
+}
+
+#### Define Types #####
+type User {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type List {
+    id: ID!
+    name: String!
+    icon: String!
+}
+
+type ListTodo {
+    _id: ID!
+    name: String!
+    icon: String!
+    todoEntries: [Todo!]!
+    count: Int!
+}
+
+type Workspace {
+    id: ID!
+    name: String!
+    icon: String!
+    color: String!
+}
+
+type Todo {
+    id: ID
+    _id: ID
+    title: String!
+    start_date: DateTime!
+    end_date: DateTime!
+    status: Statuses!
+    listId: ID!
+    workspaceId: String
+    reason: String
+}
+
+type ListConnection {
+    nodes: [List!]!
+
+    totalCount: Int!
+}
+
+type ListTodoConnection {
+    nodes: [ListTodo!]!
+    totalCount: Int!
+}
+
+type WorkspaceConnection {
+    nodes: [Workspace!]!
+    totalCount: Int!
+}
+
+type TodoConnection {
+    nodes: [Todo!]!
+    totalCount: Int!
+}
+
+type LoginToken {
+    userId: ID
+    accessToken: String
+    error: String
+}
+
+#### Inputs ####
+input ListInput {
+    name: String!
+    icon: String!
+}
+
+input ListUpdate {
+    id: ID!
+    update: ListInput!
+}
+
+input ListCreate {
+    list: ListInput!
+}
+
+input WorkspaceInput {
+    name: String!
+    icon: String!
+    color: String!
+}
+
+input WorkspaceUpdate {
+    id: ID!
+    update: WorkspaceInput!
+}
+
+input WorkspaceCreate {
+    workspace: WorkspaceInput!
+}
+
+input TodoInput {
+    title: String!
+    start_date: DateTime!
+    end_date: DateTime!
+    status: Statuses!
+    listId: ID!
+    workspaceId: ID
+    reason: String
+}
+
+input TodoUpdate {
+    id: ID!
+    update: TodoInput!
+}
+
+input TodoStatusUpdate {
+    id: ID!
+    status: String!
+}
+
+input TodoCreate {
+    todo: TodoInput!
+}
+
+input DeleteInput {
+    id: ID!
+}
+
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+#### Define Query ####
+type Query {
+    me: User!
+    user(id: ID!): User!
+    list(id: ID!): List!
+    lists: ListConnection!
+    listTodos: ListTodoConnection!
+    selectedListItems(listName: String!): ListTodoConnection!
+    selectedWorkspaceItems(workspaceId: ID!): ListTodoConnection!
+    workspace(id: ID!): Workspace!
+    workspaces: WorkspaceConnection!
+    todo(id: ID!): Todo!
+    todos: TodoConnection!
+    todaysTask(current_date: DateTime!): TodoConnection!
+    completedTasks: TodoConnection!
+    login(login: LoginInput!): LoginToken!
+    getIdentity(accessToken: String!): User
+}
+
+#### Define Mutation ####
+type Mutation {
+    createList(input: ListCreate): List!
+    updateList(input: ListUpdate): List!
+    deleteList(input: DeleteInput): List!
+
+    createWorkspace(input: WorkspaceCreate): Workspace!
+    updateWorkspace(input: WorkspaceUpdate): Workspace!
+    deleteWorkspace(input: DeleteInput): Workspace!
+
+    createTodo(input: TodoCreate): Todo!
+    updateTodo(input: TodoUpdate): Todo!
+    updateTaskStatus(input: TodoStatusUpdate): Todo!
+    deleteTodo(input: DeleteInput): Todo!
+}
+
