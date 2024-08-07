@@ -44,7 +44,7 @@ const SubTaskItem = ({
             <span className="flex items-center justify-center text-sm font-medium text-blue-800 dark:text-blue-300 space-x-2">
                 <div className="w-[200px]">
                     <div className="relative flex items-center justify-end">
-                        <Avatar className="absolute w-7 h-7 z-20 border-2">
+                        {/* <Avatar className="absolute w-7 h-7 z-20 border-2">
                             <AvatarImage src="https://github.com/shadcn.png" />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
@@ -55,7 +55,7 @@ const SubTaskItem = ({
                         <Avatar className="absolute w-7 h-7 z-0 border-2 mr-8">
                             <AvatarImage src="https://github.com/shadcn.png" />
                             <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
+                        </Avatar> */}
                     </div>
                 </div>
 
