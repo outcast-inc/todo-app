@@ -36,11 +36,14 @@ const EditTaskForm = ({
   const [endDate, setEndDate] = useState(content.end_date);
   const [Checked, setChecked] = useState<boolean>(content.status === 'complete')
   const [ListItems, setListItems] = useState([]);
+  const [currentList, setCurrentList] = useState(null);
 
-    const fetchListEntries = async () => {
+  const fetchListEntries = async () => {
         const listEntries = await getListsEntry();
         setListItems(listEntries.nodes)
-    }
+
+        setCurrentList(listEntries.nodes.find((listItem) => listItem.id === content.listId))
+  }
     
   useEffect(() => {
     fetchListEntries();
@@ -102,7 +105,7 @@ const EditTaskForm = ({
                                 fieldType={FormFieldType.SELECT}
                                 control={form.control}
                                 name='listType'
-                                placeholder={taskname}
+                                placeholder={currentList ? currentList.name : taskname}
                             >
                                 {ListItems.map((listItem, i) => {
                                     const ListIcon = icons[listItem.icon];
@@ -138,7 +141,7 @@ const EditTaskForm = ({
                             classNames="w-full px-4"
                         />
                     </div>
-                    <Button variant={'outline'} type="submit" className="w-full px-2">Update Task</Button>
+                    <Button variant={'outline'} type="submit" className="w-full">Update Task</Button>
                 </form>
             </Form>
 

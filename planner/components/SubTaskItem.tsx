@@ -15,8 +15,11 @@ const SubTaskItem = ({
 }) => {
 
   const [Checked, setChecked] = useState<boolean>(subtask.status === 'complete')
+  const currentDate = new Date(subtask.start_date)
+  const formatter = new Intl.DateTimeFormat("en-US", {hour: "numeric",
+    minute: "numeric"});
 
-  const isToday = new Date().toDateString() === new Date(subtask.start_date).toDateString()
+  const isToday = new Date().toDateString() === currentDate.toDateString()
 
   const handleCheckEvent = async(e: any) => {
     const updateTodo = await updateTodoStatus(
@@ -38,7 +41,7 @@ const SubTaskItem = ({
             <div className="flex-1 ms-3 whitespace-nowrap flex items-center space-x-4">
                 <Checkbox className="h-5 w-5" checked={Checked} onCheckedChange={handleCheckEvent}/>
                 <span className={cn("font-normal", `${Checked ? "line-through text-gray-500" : ""}`)}>
-                    {subtask.title}
+                    {subtask.title} {isToday && "at " + formatter.format(currentDate)}
                 </span>
             </div>
             <span className="flex items-center justify-center text-sm font-medium text-blue-800 dark:text-blue-300 space-x-2">
